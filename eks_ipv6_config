@@ -1,0 +1,33 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ipvsix
+  region: eu-west-1
+  version: "1.21"
+
+vpc:
+  subnets:
+    private:
+      eu-north-1a: { id: subnet-abcdefgh }
+      eu-north-1b: { id: subnet-abcdefgi }
+      eu-north-1c: { id: subnet-abcdefgj }
+
+kubernetesNetworkConfig:
+  ipFamily: IPv6
+
+addons:
+  - name: vpc-cni
+    version: latest
+  - name: coredns
+    version: latest
+  - name: kube-proxy
+    version: latest
+
+iam:
+  withOIDC: true
+
+
+managedNodeGroups:
+  - name: my-nodegroup
+    instanceType: t3.medium
